@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class Player : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class Player : MonoBehaviour
         moveValue = new Vector3(inputValue.x, 0, inputValue.y);
         bool isMoving = moveValue != Vector3.zero;
         animator.SetBool("move", isMoving);
+    }
+
+    void OnJump()
+    {
+        animator.SetTrigger("jump");
     }
 
     private void Update()
