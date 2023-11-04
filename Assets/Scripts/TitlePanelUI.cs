@@ -1,8 +1,8 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-public class PlayerNicknameInputUI : MonoBehaviour
+public class TitlePanelUI : MonoBehaviour
 {
     const string playerNamePrefKey = "PlayerName";
 
@@ -29,7 +29,7 @@ public class PlayerNicknameInputUI : MonoBehaviour
     {
         if (string.IsNullOrEmpty(nickNameInputField.text))
         {
-            Debug.LogError("ÇÃ·¹ÀÌ¾î ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù.");
+            Debug.LogError("í”Œë ˆì´ì–´ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 

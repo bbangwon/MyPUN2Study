@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        chatManager.Disconnect();
         SceneManager.LoadScene("Lobby");
     }
 

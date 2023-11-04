@@ -1,5 +1,6 @@
-using Photon.Pun;
+Ôªøusing Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Lobby : MonoBehaviourPunCallbacks
@@ -7,18 +8,59 @@ public class Lobby : MonoBehaviourPunCallbacks
     string gameVersion = "1";
     const string GameScene = "Game";
 
+    public enum UIStates
+    {
+        Ready,   
+        Title,
+        RoomList,
+    }
+
+    [SerializeField] TitlePanelUI titlePanelUI;
+    [SerializeField] RoomListPanelUI roomListPanelUI;
+
+    UIStates uiState = UIStates.Ready;
+    UIStates UIState 
+    { 
+        get => uiState;
+        set
+        {
+            uiState = value;
+
+            switch (uiState)
+            {
+                case UIStates.Ready:
+                    titlePanelUI.gameObject.SetActive(false);
+                    roomListPanelUI.gameObject.SetActive(false);
+                    break;
+                case UIStates.Title:
+                    titlePanelUI.gameObject.SetActive(true);
+                    roomListPanelUI.gameObject.SetActive(false);
+                    break;
+                case UIStates.RoomList:
+                    titlePanelUI.gameObject.SetActive(false);
+                    roomListPanelUI.gameObject.SetActive(true);
+                    break;
+            }
+        }      
+    }
+
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;    
     }
 
+    private void Start()
+    {        
+        UIState = UIStates.Ready;
+        if (!PhotonNetwork.IsConnected)
+        { 
+            UIState = UIStates.Title;
+        }
+    }
+
     public void Connect()
     {
-        if(PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.JoinRandomRoom();
-        }
-        else
+        if(!PhotonNetwork.IsConnected)            
         {
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
@@ -27,26 +69,30 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("∏∂Ω∫≈Õ º≠πˆ ø¨∞·");
-        PhotonNetwork.JoinRandomRoom();
+        Debug.Log("ÎßàÏä§ÌÑ∞ ÏÑúÎ≤Ñ Ïó∞Í≤∞");
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log($"ø¨∞· ¡æ∑· : {cause}");
-    }
-
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        Debug.Log("∑£¥˝ πÊ ¬¸∞° Ω«∆–");
-
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 4 });
+        Debug.Log($"Ïó∞Í≤∞ Ï¢ÖÎ£å : {cause}");
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("πÊ ¬¸∞°!!");
+        Debug.Log("Î∞© Ï∞∏Í∞Ä!!");
         PhotonNetwork.LoadLevel(GameScene);
     }
 
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("Î°úÎπÑ ÏûÖÏû•!!");
+        UIState = UIStates.RoomList;
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        Debug.Log("Î£∏ Î¶¨Ïä§Ìä∏ ÏóÖÎç∞Ïù¥Ìä∏!!");
+        roomListPanelUI.UpdateRoomList(roomList);
+    }
 }

@@ -12,11 +12,21 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     ChatClient chatClient;
 
-    const string GlobalChannelName = "Global";
+    string channelName;
+
+    private void Awake()
+    {
+        if(!PhotonNetwork.IsConnected)
+        {
+            DestroyImmediate(gameObject);            
+        }
+    }
 
     void Start()
     {
         var chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings();
+
+        channelName = PhotonNetwork.CurrentRoom.Name;
 
         chatClient = new ChatClient(this);
         chatClient.UseBackgroundWorkerForSending = true;
@@ -57,7 +67,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
         if(chatClient != null)
         {
-            chatClient.PublishMessage(GlobalChannelName, message);
+            chatClient.PublishMessage(channelName, message);
         }
     }
 
@@ -94,6 +104,14 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         }
     }
 
+    public void Disconnect()
+    {
+        if (chatClient != null)
+        {
+            chatClient.Disconnect();
+        }
+    }
+
     public void OnDisconnected()
     {
         Debug.Log("PhotonChat : OnDisconnected()");
@@ -102,7 +120,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnConnected()
     {
         Debug.Log("PhotonChat : OnConnected()");
-        chatClient.Subscribe(new string[] { GlobalChannelName });
+        chatClient.Subscribe(new string[] { channelName });
     }
 
     public void OnChatStateChange(ChatState state)
@@ -113,7 +131,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         Debug.Log($"OnGetMessage {channelName}");
-        if(channelName.Equals(GlobalChannelName))
+        if(channelName.Equals(this.channelName))
         {
             ShowChannel(channelName);
         }

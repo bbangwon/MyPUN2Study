@@ -1,4 +1,4 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -76,7 +76,7 @@ public class Player : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        //´Ğ³×ÀÓ ÅØ½ºÆ®°¡ Ç×»ó Ä«¸Ş¶ó¸¦ ¹Ù¶óº¸µµ·Ï
+        //ë‹‰ë„¤ì„ í…ìŠ¤íŠ¸ê°€ í•­ìƒ ì¹´ë©”ë¼ë¥¼ ë°”ë¼ë³´ë„ë¡
         nicknameText.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
 
         if (!photonView.IsMine)
