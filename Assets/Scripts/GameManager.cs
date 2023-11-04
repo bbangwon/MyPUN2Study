@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance => instance;
 
     [SerializeField] GameObject playerPrefab;
+    ChatManager chatManager;
+
+
+    public bool IsPlayerMavable => !chatManager.IsChatting;
 
     private void Awake()
     {
@@ -18,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         instance = this;
+        chatManager = FindObjectOfType<ChatManager>();
     }
 
     void Start()

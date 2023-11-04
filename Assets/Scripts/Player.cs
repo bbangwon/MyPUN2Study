@@ -35,6 +35,7 @@ public class Player : MonoBehaviourPunCallbacks
         if(photonView.IsMine)
         {
             nicknameText.text = PhotonNetwork.NickName;
+            nicknameText.color = Color.green;
         }
         else
         {
@@ -47,9 +48,16 @@ public class Player : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
-        var inputValue = value.Get<Vector2>();
+        if (GameManager.Instance.IsPlayerMavable)
+        {
+            var inputValue = value.Get<Vector2>();
+            moveValue = new Vector3(inputValue.x, 0, inputValue.y);
+        }
+        else
+        {
+            moveValue = Vector3.zero;
+        }           
 
-        moveValue = new Vector3(inputValue.x, 0, inputValue.y);
         bool isMoving = moveValue != Vector3.zero;
         animator.SetBool("move", isMoving);
     }
@@ -57,6 +65,9 @@ public class Player : MonoBehaviourPunCallbacks
     void OnJump()
     {
         if (!photonView.IsMine)
+            return;
+
+        if(!GameManager.Instance.IsPlayerMavable)
             return;
 
         animator.SetTrigger("jump");
