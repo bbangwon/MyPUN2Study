@@ -1,4 +1,4 @@
-using Photon.Pun;
+Ôªøusing Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using TMPro;
@@ -22,7 +22,7 @@ public class RoomListPanelUI : MonoBehaviour
     {
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
-            Debug.LogError("πÊ ¿Ã∏ß¿Ã æ¯Ω¿¥œ¥Ÿ.");
+            Debug.LogError("Î∞© Ïù¥Î¶ÑÏù¥ ÏóÜÏäµÎãàÎã§.");
             return;
         }
 
@@ -67,14 +67,14 @@ public class RoomListPanelUI : MonoBehaviour
 
         foreach (var roomInfo in cachedRoomList.Values)
         {
-            Debug.Log($"πÊ ¿Ã∏ß : {roomInfo.Name}, πÊ ¿Œø¯ : {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}");
+            Debug.Log($"Î∞© Ïù¥Î¶Ñ : {roomInfo.Name}, Î∞© Ïù∏Ïõê : {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}");
 
             var roomButton = Instantiate(roomButtonPrefab, roomListContent);
             var roomName = roomInfo.Name;
             roomButton.GetComponentInChildren<TextMeshProUGUI>().text = roomName;
             roomButton.GetComponent<Button>().onClick.AddListener(() =>
             {
-                Debug.Log($"∑Î ¿‘¿Â : {roomName}");
+                Debug.Log($"Î£∏ ÏûÖÏû• : {roomName}");
                 PhotonNetwork.JoinRoom(roomName);
             });
         }
