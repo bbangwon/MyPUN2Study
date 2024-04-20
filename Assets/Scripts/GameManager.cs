@@ -10,8 +10,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerPrefab;
     ChatManager chatManager;
 
-
-    public bool IsPlayerMavable => !chatManager.IsChatting;
+    public bool IsPlayerMavable => chatManager == null || !chatManager.IsChatting;
 
     private void Awake()
     {
@@ -49,7 +48,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        chatManager.Disconnect();
+        if(chatManager != null)
+        {
+            chatManager.Disconnect();
+        }        
         SceneManager.LoadScene("Lobby");
     }
 
