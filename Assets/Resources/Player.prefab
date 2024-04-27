@@ -5383,8 +5383,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB2C9\uB124\uC784"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 844c58bb090c68f4da0759abf13bc3f2, type: 2}
-  m_sharedMaterial: {fileID: -1647922823538322496, guid: 844c58bb090c68f4da0759abf13bc3f2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f834543dd0e87b4c8af36aad91e64d0, type: 2}
+  m_sharedMaterial: {fileID: 2256911280533175748, guid: 8f834543dd0e87b4c8af36aad91e64d0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
