@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class ChatUI : MonoBehaviour
@@ -11,7 +11,7 @@ public class ChatUI : MonoBehaviour
 
     private void Start()
     {
-        chatManager = FindObjectOfType<ChatManager>();
+        chatManager = FindFirstObjectByType<ChatManager>();
     }
 
     public void SetChatMessages(string messages)

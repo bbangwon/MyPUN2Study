@@ -48,7 +48,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
-        if (GameManager.Instance.IsPlayerMavable)
+        if (GameManager.Instance.IsPlayerMovable)
         {
             var inputValue = value.Get<Vector2>();
             moveValue = new Vector3(inputValue.x, 0, inputValue.y);
@@ -67,7 +67,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
-        if(!GameManager.Instance.IsPlayerMavable)
+        if(!GameManager.Instance.IsPlayerMovable)
             return;
 
         animator.SetTrigger("jump");

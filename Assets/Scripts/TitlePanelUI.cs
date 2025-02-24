@@ -13,7 +13,7 @@ public class TitlePanelUI : MonoBehaviour
     void Start()
     {
         nickNameInputField = GetComponentInChildren<TMP_InputField>();  
-        lobby = FindObjectOfType<Lobby>();
+        lobby = FindFirstObjectByType<Lobby>();
 
         string defaultName = "";
         if(PlayerPrefs.HasKey(playerNamePrefKey))

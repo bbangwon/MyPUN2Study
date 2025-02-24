@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerPrefab;
     ChatManager chatManager;
 
-    public bool IsPlayerMavable => chatManager == null || !chatManager.IsChatting;
+    public bool IsPlayerMovable => chatManager == null || !chatManager.IsChatting;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         instance = this;
-        chatManager = FindObjectOfType<ChatManager>();
+        chatManager = FindFirstObjectByType<ChatManager>();
     }
 
     void Start()
