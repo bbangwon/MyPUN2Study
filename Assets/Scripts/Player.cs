@@ -6,14 +6,21 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    float moveSpeed = 1f;
+    float moveSpeed = 20f;
 
     [SerializeField]
     float rotateSpeed = 1f;
 
+    [SerializeField]
+    float jumpPower = 10f;
+
+    [SerializeField]
+    float gravity = 20f;
+
     Vector3 moveValue;
 
     Animator animator;
+    CharacterController characterController;
 
     [SerializeField]
     TextMeshProUGUI nicknameText;
@@ -23,8 +30,9 @@ public class Player : MonoBehaviourPunCallbacks
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
 
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             LocalPlayer = this;
         }
@@ -51,7 +59,7 @@ public class Player : MonoBehaviourPunCallbacks
         if (GameManager.Instance.IsPlayerMovable)
         {
             var inputValue = value.Get<Vector2>();
-            moveValue = new Vector3(inputValue.x, 0, inputValue.y);
+            moveValue = new Vector3(inputValue.x, 0, inputValue.y) * moveSpeed;
         }
         else
         {
@@ -70,26 +78,32 @@ public class Player : MonoBehaviourPunCallbacks
         if(!GameManager.Instance.IsPlayerMovable)
             return;
 
+        if(!characterController.isGrounded)
+            return;
+
         animator.SetTrigger("jump");
 
+        moveValue.y = jumpPower;
     }
 
     private void Update()
-    {
+    {       
         //닉네임 텍스트가 항상 카메라를 바라보도록
         nicknameText.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
 
         if (!photonView.IsMine)
             return;
 
-        transform.position += moveSpeed * Time.deltaTime * moveValue;        
-        if(moveValue != Vector3.zero)
+        var moveDirection = new Vector3(moveValue.x, 0f, moveValue.z);
+        if (moveDirection != Vector3.zero)
         {
-            var rotValue = moveValue;
-            rotValue.Normalize();
+            moveDirection.Normalize();
 
-            Quaternion targetRotation = Quaternion.LookRotation(rotValue);
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
+
+        this.moveValue.y -= gravity * Time.deltaTime;
+        characterController.Move(this.moveValue * Time.deltaTime);
     }
 }
